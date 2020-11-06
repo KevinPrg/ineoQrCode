@@ -11,7 +11,6 @@ const QrCode = () => {
   const [show, setShow] = useState(false)
   const [concat, setConcat] = useState(null)
   const [numberInput, setNumberInput] = useState(0)
-  const [validateInput, setValidateInput] = useState(0)
   let tests = []
   const [valor, setValor] = useState(null)
 
@@ -31,10 +30,9 @@ const QrCode = () => {
   const tables = async () => {
     tests = []
     for (let i = 0; i < numberInput; i++) {
-      tests.push(<InputData />)
+      tests.push(<InputData index={i} />)
     }
     setShowInputs(!showInputs)
-    console.log(tests)
     setValor(tests)
   }
 
@@ -43,9 +41,7 @@ const QrCode = () => {
 
       nombre de champs: <input value={numberInput} onChange={handleChange} /> <button onClick={() => tables()} >valider</button>
 
-      {showInputs === true && <div>{valor.map((number, index) => { return (<div key={index}>{number}</div>) })}</div>}
-
-
+      {showInputs === true && <div>{valor.map((bloc, index) => { return (<div key={index}>{bloc}</div>) })}</div>}
 
       <button onClick={() => result()} >générer</button>
       {show === true &&

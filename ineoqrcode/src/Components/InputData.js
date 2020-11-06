@@ -1,8 +1,8 @@
-import React, { useState, useContext } from 'react'
+import React, { useContext } from 'react'
 
 import { DataContext } from '../Context/DataContext'
 
-const InputData = () => {
+const InputData = (props) => {
 
   const context = useContext(DataContext)
 
@@ -19,19 +19,36 @@ const InputData = () => {
     }
   }
 
-  const resetData = () => {
-    context.setData1(null)
-    context.setData2(null)
-    context.setData3(null)
+  const validData = () => {
+
+    context.result[context.testIndex] ? context.setResult(context.result.map(datas => context.testIndex === props.index && { ...datas, "data3": context.data3, "data2": context.data2, "data1": context.data1 })) : context.setResult([...context.result, { "data3": context.data3, "data2": context.data2, "data1": context.data1 }])
+    context.setData1('0')
+    context.setData2('0')
+    context.setData3('0')
+  }
+
+  const findIndex = () => {
+    context.setTestIndex(props.index)
+    if (context.testIndex === props.index) {
+      if (context.result[context.testIndex]) {
+        context.setData1(context.result[context.testIndex].data1)
+        context.setData2(context.result[context.testIndex].data2)
+        context.setData3(context.result[context.testIndex].data3)
+      } else {
+        context.setData1("0")
+        context.setData2("0")
+        context.setData3("0")
+      }
+    }
   }
 
   return (
     <div>
-      <input name="data1" type="text" value={context.data1} onChange={handleChange} />
-      <input name="data2" type="text" value={context.data2} onChange={handleChange} />
-      <input name="data3" type="text" value={context.data3} onChange={handleChange} />
+      <input name="data1" type="text" placeholder="0" value={context.testIndex === props.index ? context.data1 : "0"} onChange={handleChange} onClick={() => findIndex()} />
+      <input name="data2" type="text" placeholder="0" value={context.testIndex === props.index ? context.data2 : "0"} onChange={handleChange} onClick={() => findIndex()} />
+      <input name="data3" type="text" placeholder="0" value={context.testIndex === props.index ? context.data3 : "0"} onChange={handleChange} onClick={() => findIndex()} />
 
-      <button onClick={() => resetData()}>reset datas</button>
+      <button onClick={() => validData()}>validate</button>
     </div>
   )
 }
