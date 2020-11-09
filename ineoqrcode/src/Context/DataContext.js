@@ -2,7 +2,7 @@ import React, { createContext, useState } from 'react'
 
 export const DataContext = createContext()
 
-export default ({ children }) => {
+const Context = ({ children }) => {
   const [data1, setData1] = useState("")
   const [data2, setData2] = useState("")
   const [data3, setData3] = useState("")
@@ -29,3 +29,5 @@ export default ({ children }) => {
     </div>
   )
 }
+
+export default Context
