@@ -3,10 +3,10 @@ import React, { createContext, useState } from 'react'
 export const DataContext = createContext()
 
 export default ({ children }) => {
-  const [data1, setData1] = useState('')
-  const [data2, setData2] = useState('')
-  const [data3, setData3] = useState('')
-  const [testIndex, setTestIndex] = useState('')
+  const [data1, setData1] = useState("")
+  const [data2, setData2] = useState("")
+  const [data3, setData3] = useState("")
+  const [indexInput, setIndexInput] = useState("")
   const [result, setResult] = useState([])
 
   return (
@@ -18,8 +18,8 @@ export default ({ children }) => {
         setData2,
         data3,
         setData3,
-        testIndex,
-        setTestIndex,
+        indexInput,
+        setIndexInput,
         result,
         setResult
       }}>

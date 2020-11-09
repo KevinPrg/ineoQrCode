@@ -7,20 +7,24 @@ import { DataContext } from '../Context/DataContext'
 
 const QrCode = () => {
 
-  const [showInputs, setShowInputs] = useState(false)
-  const [show, setShow] = useState(false)
-  const [concat, setConcat] = useState(null)
-  const [numberInput, setNumberInput] = useState(0)
-  let tests = []
-  const [valor, setValor] = useState(null)
-
   const context = useContext(DataContext)
 
+  const [showInputs, setShowInputs] = useState(false)
+  const [show, setShow] = useState(false)
+  const [numberInput, setNumberInput] = useState(0)
+  const [mapGenerateInput, setMapGenerateInput] = useState(null)
+  const [qrValue, setQrValue] = useState("")
+  let generateInputs = []
 
   const result = () => {
     setShow(!show)
-    setConcat(context.data1 + context.data2 + context.data3)
-    console.log(concat)
+    const finalResult = []
+    let increment = 1
+    for (let i = 0; i < context.result.length; i++) {
+      finalResult.push(` [Données ${increment}: \n Numéro de chambre: ${context.result[i].data1} \n Code INSEE: ${context.result[i].data2} \n Numéro de poteau: ${context.result[i].data3}] \n\n`)
+      increment += 1
+    }
+    setQrValue(finalResult.join(''))
   }
 
   const handleChange = (e) => {
@@ -28,12 +32,12 @@ const QrCode = () => {
   }
 
   const tables = async () => {
-    tests = []
+    generateInputs = []
     for (let i = 0; i < numberInput; i++) {
-      tests.push(<InputData index={i} />)
+      generateInputs.push(<InputData index={i} />)
     }
     setShowInputs(!showInputs)
-    setValor(tests)
+    setMapGenerateInput(generateInputs)
   }
 
   return (
@@ -41,11 +45,11 @@ const QrCode = () => {
 
       nombre de champs: <input value={numberInput} onChange={handleChange} /> <button onClick={() => tables()} >valider</button>
 
-      {showInputs === true && <div>{valor.map((bloc, index) => { return (<div key={index}>{bloc}</div>) })}</div>}
+      {showInputs === true && <div>{mapGenerateInput.map((layoutInput, index) => { return (<div key={index}>{layoutInput}</div>) })}</div>}
 
       <button onClick={() => result()} >générer</button>
       {show === true &&
-        <QRCode value={concat} />
+        <QRCode value={qrValue} size={200} />
       }
     </div>
   )

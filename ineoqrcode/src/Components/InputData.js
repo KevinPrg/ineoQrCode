@@ -9,46 +9,69 @@ const InputData = (props) => {
   const handleChange = (e) => {
     if (e.target.name === "data1") {
       context.setData1(e.target.value)
-      console.log(context.data1)
     } if (e.target.name === "data2") {
       context.setData2(e.target.value)
-      console.log(context.data2)
     } if (e.target.name === "data3") {
       context.setData3(e.target.value)
-      console.log(context.data3)
     }
   }
 
   const validData = () => {
-
-    context.result[context.testIndex] ? context.setResult(context.result.map(datas => context.testIndex === props.index && { ...datas, "data3": context.data3, "data2": context.data2, "data1": context.data1 })) : context.setResult([...context.result, { "data3": context.data3, "data2": context.data2, "data1": context.data1 }])
-    context.setData1('0')
-    context.setData2('0')
-    context.setData3('0')
+    if (props.index === context.indexInput) {
+      if (context.result[context.indexInput]) {
+        context.setResult(context.result.map(datas => context.result[context.indexInput] === datas ? { ...datas, data3: context.data3, data2: context.data2, data1: context.data1 } : datas))
+      } else {
+        context.setResult([...context.result, { "data3": context.data3, "data2": context.data2, "data1": context.data1 }])
+      }
+      context.setData1("")
+      context.setData2("")
+      context.setData3("")
+    }
   }
 
   const findIndex = () => {
-    context.setTestIndex(props.index)
-    if (context.testIndex === props.index) {
-      if (context.result[context.testIndex]) {
-        context.setData1(context.result[context.testIndex].data1)
-        context.setData2(context.result[context.testIndex].data2)
-        context.setData3(context.result[context.testIndex].data3)
+    context.indexInput !== props.index && context.setIndexInput(props.index)
+  }
+
+  const modifData = () => {
+    if (context.indexInput === props.index) {
+      if (context.result[context.indexInput]) {
+        context.setData1(context.result[context.indexInput].data1)
+        context.setData2(context.result[context.indexInput].data2)
+        context.setData3(context.result[context.indexInput].data3)
       } else {
-        context.setData1("0")
-        context.setData2("0")
-        context.setData3("0")
+        context.setData1("")
+        context.setData2("")
+        context.setData3("")
       }
     }
   }
 
   return (
     <div>
-      <input name="data1" type="text" placeholder="0" value={context.testIndex === props.index ? context.data1 : "0"} onChange={handleChange} onClick={() => findIndex()} />
-      <input name="data2" type="text" placeholder="0" value={context.testIndex === props.index ? context.data2 : "0"} onChange={handleChange} onClick={() => findIndex()} />
-      <input name="data3" type="text" placeholder="0" value={context.testIndex === props.index ? context.data3 : "0"} onChange={handleChange} onClick={() => findIndex()} />
+      <div>
+        <label htmlFor="chamber">numéro de chambre</label>
+        <input id="chamber" name="data1" type="text" placeholder="" value={context.indexInput === props.index ? context.data1 : ""} onChange={handleChange} onClick={() => findIndex()} />
+      </div>
+      <div>
+        <label htmlFor="insee">code INSEE</label>
+        <input id="insee" name="data2" type="text" placeholder="" value={context.indexInput === props.index ? context.data2 : ""} onChange={handleChange} onClick={() => findIndex()} />
+      </div>
+      <div>
+        <label htmlFor="poteau">numéro poteau</label>
+        <input id="poteau" name="data3" type="text" placeholder="" value={context.indexInput === props.index ? context.data3 : ""} onChange={handleChange} onClick={() => findIndex()} />
+      </div>
 
       <button onClick={() => validData()}>validate</button>
+      <button onClick={() => modifData()}>modifier</button>
+
+      {context.result[props.index] &&
+        <div>
+          <p>données sauvegardées: numéro de chambre: {context.result[props.index].data1},</p>
+          <p>code INSEE: {context.result[props.index].data2},</p>
+          <p>numéro poteau: {context.result[props.index].data3}</p>
+        </div>}
+
     </div>
   )
 }
