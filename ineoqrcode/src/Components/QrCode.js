@@ -69,8 +69,6 @@ const QrCode = () => {
           </div>
         }
         <button onClick={() => result()} >générer le QR Code</button>
-
-
       </div>
     </div>
   )
