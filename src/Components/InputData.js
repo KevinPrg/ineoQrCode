@@ -27,7 +27,8 @@ const InputData = (props) => {
   }
 
   const validData = () => {
-    if (props.index === context.indexInput) {
+    console.log(context.result.length, props.index)
+    if (props.index === context.indexInput && context.result.length === props.index) {
       if (context.result[context.indexInput]) {
         context.setResult(context.result.map(datas => context.result[context.indexInput] === datas ? { ...datas, data3: context.data3, data2: context.data2, data1: context.data1 } : datas))
       } else {
@@ -51,39 +52,38 @@ const InputData = (props) => {
 
   return (
     <div className="contain">
+      <p>poteau numéro {props.index + 1}: </p>
       <div className="separator">
-        <p>poteau numéro {props.index + 1}: </p>
+
         <div className="inputs">
           <div className="inputSolo">
-            <label htmlFor="chamber">numéro de chambre: </label>
-            <input id="chamber" name="data1" type="text" placeholder="" value={context.indexInput === props.index ? context.data1 : ""} onChange={handleChange} onClick={() => findIndex()} />
+            <label htmlFor={"chamber" + props.index}>numéro de chambre: </label>
+            <input id={"chamber" + props.index} name="data1" type="text" placeholder="" value={context.indexInput === props.index ? context.data1 : ""} onChange={handleChange} onClick={() => findIndex()} />
           </div>
           <div className="inputSolo">
-            <label htmlFor="insee">code INSEE: </label>
-            <input id="insee" name="data2" type="text" placeholder="" value={context.indexInput === props.index ? context.data2 : ""} onChange={handleChange} onClick={() => findIndex()} />
+            <label htmlFor={"insee" + props.index}>code INSEE: </label>
+            <input id={"insee" + props.index} name="data2" type="text" placeholder="" value={context.indexInput === props.index ? context.data2 : ""} onChange={handleChange} onClick={() => findIndex()} />
           </div>
           <div className="inputSolo">
-            <label htmlFor="poteau">numéro poteau: </label>
-            <input id="poteau" name="data3" type="text" placeholder="" value={context.indexInput === props.index ? context.data3 : ""} onChange={handleChange} onClick={() => findIndex()} />
-          </div>
-          <div className="saveResults">
-            {context.result[props.index] &&
-              <div>
-                <p>données sauvegardées: </p>
-                <p>numéro de chambre: {context.result[props.index].data1}  </p>
-                <p>code INSEE: {context.result[props.index].data2}  </p>
-                <p>numéro poteau: {context.result[props.index].data3}</p>
-              </div>
-            }
+            <label htmlFor={"poteau" + props.index}>numéro poteau: </label>
+            <input id={"poteau" + props.index} name="data3" type="text" placeholder="" value={context.indexInput === props.index ? context.data3 : ""} onChange={handleChange} onClick={() => findIndex()} />
           </div>
         </div>
-
         <div className="buttons">
           <button onClick={() => validData()}>valider</button>
           <button onClick={() => modifData()}>modifier</button>
         </div>
       </div>
-
+      <div className="saveResults">
+        {context.result[props.index] &&
+          <div className="results">
+            <p>données sauvegardées: </p>
+            <p>numéro de chambre: {context.result[props.index].data1}  </p>
+            <p>code INSEE: {context.result[props.index].data2}  </p>
+            <p>numéro poteau: {context.result[props.index].data3}</p>
+          </div>
+        }
+      </div>
 
 
     </div>
