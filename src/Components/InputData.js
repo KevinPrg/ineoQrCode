@@ -1,9 +1,11 @@
-import React, { useContext } from 'react'
+import React, { useState, useContext } from 'react'
 
 import { DataContext } from '../Context/DataContext'
 import '../App.css'
 
 const InputData = (props) => {
+
+  const [errors, setErrors] = useState("")
 
   const context = useContext(DataContext)
 
@@ -27,12 +29,17 @@ const InputData = (props) => {
   }
 
   const validData = () => {
-    console.log(context.result.length, props.index)
-    if (props.index === context.indexInput && context.result.length === props.index) {
-      if (context.result[context.indexInput]) {
-        context.setResult(context.result.map(datas => context.result[context.indexInput] === datas ? { ...datas, data3: context.data3, data2: context.data2, data1: context.data1 } : datas))
-      } else {
-        context.setResult([...context.result, { "data3": context.data3, "data2": context.data2, "data1": context.data1 }])
+    if (props.index === context.indexInput) {
+      if (context.result.length === props.index) {
+        if (context.result[context.indexInput]) {
+          context.setResult(context.result.map(datas => context.result[context.indexInput] === datas ? { ...datas, data3: context.data3, data2: context.data2, data1: context.data1 } : datas))
+        } else {
+          context.setResult([...context.result, { "data3": context.data3, "data2": context.data2, "data1": context.data1 }])
+          setErrors("")
+        }
+      }
+      else {
+        setErrors("le champs précédent n'est pas renseigné")
       }
     }
     context.setData1("")
@@ -73,6 +80,7 @@ const InputData = (props) => {
           <button onClick={() => validData()}>valider</button>
           <button onClick={() => modifData()}>modifier</button>
         </div>
+        {errors !== "" && <div className="error" >{errors}</div>}
       </div>
       <div className="saveResults">
         {context.result[props.index] &&

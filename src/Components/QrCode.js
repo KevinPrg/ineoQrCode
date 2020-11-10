@@ -11,6 +11,7 @@ const QrCode = () => {
   const context = useContext(DataContext)
 
   const [showInputs, setShowInputs] = useState(false)
+  const [buttonGenerate, setButtonGenerate] = useState(false)
   const [show, setShow] = useState(false)
   const [numberInput, setNumberInput] = useState("")
   const [mapGenerateInput, setMapGenerateInput] = useState(null)
@@ -28,6 +29,7 @@ const QrCode = () => {
     }
     setShowInputs(!showInputs)
     setMapGenerateInput(generateInputs)
+    setButtonGenerate(true)
   }
 
   const result = () => {
@@ -35,7 +37,7 @@ const QrCode = () => {
     const finalResult = []
     let increment = 1
     for (let i = 0; i < context.result.length; i++) {
-      finalResult.push(` [Données ${increment}: \n Numéro de chambre: ${context.result[i].data1} \n Code INSEE: ${context.result[i].data2} \n Numéro de poteau: ${context.result[i].data3}] \n\n`)
+      finalResult.push(` [Codes ${increment}: \n chambre: ${context.result[i].data1} \n INSEE: ${context.result[i].data2} \n poteau: ${context.result[i].data3}] \n\n`)
       increment += 1
     }
     setQrValue(finalResult.join(''))
@@ -62,13 +64,14 @@ const QrCode = () => {
 
       {showInputs === true && <div>{mapGenerateInput.map((layoutInput, index) => { return (<div key={index}>{layoutInput}</div>) })}</div>}
       <div className="generateCode">
-        {show === true &&
+        {show &&
           <div className="code">
             <QRCode id="qrCode" value={qrValue} size={500} level='M' />
             <button className="download" onClick={downloadQR}> Telecharger ce QR code </button>
           </div>
         }
-        <button onClick={() => result()} >générer le QR Code</button>
+        {buttonGenerate && <button onClick={() => result()} >générer le QR Code</button>}
+
       </div>
     </div>
   )

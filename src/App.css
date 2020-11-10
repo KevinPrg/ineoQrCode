@@ -97,3 +97,10 @@
 .results p{
   width: 100%;
 }
+
+.error {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 1%;
+}
