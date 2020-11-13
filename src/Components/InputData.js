@@ -30,7 +30,7 @@ const InputData = (props) => {
 
   const validData = () => {
     if (props.index === context.indexInput) {
-      if (context.result.length === props.index) {
+      if (context.result.length >= props.index) {
         if (context.result[context.indexInput]) {
           context.setResult(context.result.map(datas => context.result[context.indexInput] === datas ? { ...datas, data3: context.data3, data2: context.data2, data1: context.data1 } : datas))
         } else {
