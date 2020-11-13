@@ -62,7 +62,7 @@ const QrCode = () => {
         nombre de champs: <input value={numberInput} onChange={handleChange} /> <button onClick={() => tables()} >valider</button>
       </div>
 
-      {showInputs === true && <div>{mapGenerateInput.map((layoutInput, index) => { return (<div key={index}>{layoutInput}</div>) })}</div>}
+      {showInputs && <div>{mapGenerateInput.map((layoutInput, index) => { return (<div key={index}>{layoutInput}</div>) })}</div>}
       <div className="generateCode">
         {show &&
           <div className="code">
