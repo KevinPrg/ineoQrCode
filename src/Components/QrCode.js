@@ -10,11 +10,10 @@ const QrCode = () => {
 
   const context = useContext(DataContext)
 
-  const [showInputs, setShowInputs] = useState(false)
   const [buttonGenerate, setButtonGenerate] = useState(false)
   const [show, setShow] = useState(false)
   const [numberInput, setNumberInput] = useState("")
-  const [mapGenerateInput, setMapGenerateInput] = useState(null)
+  const [mapGenerateInput, setMapGenerateInput] = useState([])
   const [qrValue, setQrValue] = useState("")
   let generateInputs = []
 
@@ -27,7 +26,6 @@ const QrCode = () => {
     for (let i = 0; i < numberInput; i++) {
       generateInputs.push(<InputData index={i} />)
     }
-    setShowInputs(!showInputs)
     setMapGenerateInput(generateInputs)
     setButtonGenerate(true)
   }
@@ -62,7 +60,7 @@ const QrCode = () => {
         nombre de champs: <input value={numberInput} onChange={handleChange} /> <button onClick={() => tables()} >valider</button>
       </div>
 
-      {showInputs && <div>{mapGenerateInput.map((layoutInput, index) => { return (<div key={index}>{layoutInput}</div>) })}</div>}
+      <div>{mapGenerateInput.map((layoutInput, index) => { return (<div key={index}>{layoutInput}</div>) })}</div>
       <div className="generateCode">
         {show &&
           <div className="code">
